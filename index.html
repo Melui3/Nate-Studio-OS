@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Nate Studio OS</title>
+    <link rel="stylesheet" href="styles.css">
+    <script defer src="app.js"></script>
+  </head>
+  <body>
+    <div class="ambient" aria-hidden="true"></div>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <div class="brand">
+          <div class="brand-mark">
+            <img src="assets/nate-logo-sindorei.jpg" alt="Logo Nate OS">
+          </div>
+          <div>
+            <div class="brand-name">Nate Studio OS</div>
+            <div class="brand-subtitle">Cockpit personnel</div>
+          </div>
+        </div>
+
+        <nav class="nav-list" aria-label="Modules">
+          <button class="nav-item is-active" data-view="overview" type="button"><span>⌂</span>Vue d'ensemble</button>
+          <button class="nav-item" data-view="prospects" type="button"><span>◎</span>Prospects</button>
+          <button class="nav-item" data-view="clients" type="button"><span>◇</span>Clients</button>
+          <button class="nav-item" data-view="projects" type="button"><span>▦</span>Projets</button>
+          <button class="nav-item" data-view="tasks" type="button"><span>✓</span>Tâches</button>
+          <button class="nav-item" data-view="quotes" type="button"><span>₠</span>Devis</button>
+          <button class="nav-item" data-view="notes" type="button"><span>✧</span>Notes</button>
+          <button class="nav-item" data-view="history" type="button"><span>≋</span>Historique</button>
+        </nav>
+
+        <div class="local-ledger">
+          <div class="ledger-label">Mode</div>
+          <div class="ledger-value">Local-first</div>
+        </div>
+      </aside>
+
+      <main class="workspace">
+        <header class="topbar">
+          <div>
+            <div class="eyebrow">Orion board</div>
+            <h1 id="view-title">Vue d'ensemble</h1>
+          </div>
+          <div class="top-actions">
+            <label class="search-box">
+              <span>⌕</span>
+              <input id="global-search" type="search" placeholder="Rechercher">
+            </label>
+            <button class="icon-button" id="load-demo" type="button" title="Charger les exemples">✦</button>
+            <button class="icon-button" id="clear-board" type="button" title="Vider le cockpit">⌫</button>
+            <button class="primary-button" id="new-entry" type="button"><span>+</span>Nouveau</button>
+          </div>
+        </header>
+
+        <section class="view" id="view-root" aria-live="polite"></section>
+      </main>
+
+      <aside class="inspector" id="inspector">
+        <div class="inspector-empty">
+          <div class="sigil">✦</div>
+          <h2>Détails</h2>
+          <p>Ce panneau affiche la fiche de l'élément sélectionné. Le cockpit est vide pour le moment, donc il n'y a encore rien à ouvrir.</p>
+          <div class="inspector-actions">
+            <button class="primary-button" data-inspector-action="new-entry" type="button">Créer</button>
+            <button class="ghost-button" data-inspector-action="load-demo" type="button">Charger les exemples</button>
+          </div>
+        </div>
+      </aside>
+    </div>
+
+    <dialog class="entry-dialog" id="entry-dialog">
+      <form class="entry-form" id="entry-form">
+        <header class="dialog-header">
+          <div>
+            <div class="eyebrow">Capture rapide</div>
+          <h2>Nouvel élément</h2>
+          </div>
+          <button class="icon-button" data-close-dialog type="button" title="Fermer" aria-label="Fermer">&times;</button>
+        </header>
+
+        <label>
+          Type
+          <select name="type">
+            <option value="task">Tâche</option>
+            <option value="prospect">Prospect</option>
+            <option value="client">Client</option>
+            <option value="project">Projet</option>
+            <option value="note">Note</option>
+            <option value="quote">Devis</option>
+          </select>
+        </label>
+        <label>
+          Titre
+          <input name="title" required placeholder="Ex: Relancer Studio Velvet">
+        </label>
+        <label>
+          Détail
+          <textarea name="detail" rows="6" placeholder="Notes, besoin, prochaine action"></textarea>
+        </label>
+        <label>
+          Date
+          <input name="date" type="date">
+        </label>
+
+        <footer class="dialog-actions">
+          <button class="ghost-button" data-close-dialog type="button">Annuler</button>
+          <button class="primary-button" value="default" type="submit">Ajouter</button>
+        </footer>
+      </form>
+    </dialog>
+
+    <dialog class="entry-dialog template-dialog" id="template-dialog">
+      <form class="entry-form" id="template-form">
+        <header class="dialog-header">
+          <div>
+            <div class="eyebrow">Forge de devis</div>
+            <h2>Template</h2>
+          </div>
+          <button class="icon-button" data-close-template type="button" title="Fermer" aria-label="Fermer">&times;</button>
+        </header>
+
+        <input name="index" type="hidden">
+
+        <label>
+          Nom du template
+          <input name="title" required placeholder="Ex: Landing page royale">
+        </label>
+        <div class="form-grid">
+          <label>
+            Total
+            <input name="amount" type="number" min="0" step="50" required>
+          </label>
+          <label>
+            Acompte %
+            <input name="deposit" type="number" min="0" max="100" step="5" required>
+          </label>
+        </div>
+        <div class="form-grid">
+          <label>
+            Délai
+            <input name="timeline" required placeholder="Ex: 3 semaines">
+          </label>
+          <label>
+            Validité
+            <input name="validity" required placeholder="Ex: 30 jours">
+          </label>
+        </div>
+        <label>
+          Intro
+          <textarea name="intro" rows="3" placeholder="Promesse et contexte du devis"></textarea>
+        </label>
+        <label>
+          Lignes
+          <textarea name="items" rows="6" placeholder="Une ligne par prestation : Nom | Detail | Prix"></textarea>
+        </label>
+        <label>
+          Livrables
+          <textarea name="deliverables" rows="3" placeholder="Un livrable par ligne"></textarea>
+        </label>
+        <label>
+          Modalités
+          <textarea name="terms" rows="3" placeholder="Une modalité par ligne"></textarea>
+        </label>
+
+        <footer class="dialog-actions">
+          <button class="ghost-button" data-close-template type="button">Annuler</button>
+          <button class="primary-button" type="submit">Enregistrer</button>
+        </footer>
+      </form>
+    </dialog>
+
+    <div class="toast" id="toast" role="status"></div>
+  </body>
+</html>
